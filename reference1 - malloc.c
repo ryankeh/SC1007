@@ -11,7 +11,7 @@ int mallocString();
 
 //-----------------------------------------------------------------------------------------------------------
 
-int mallocInt() {
+int mallocInt(){
     int i, n;
     printf("Enter number of integers: ");
     scanf("%d", &n);
@@ -62,7 +62,7 @@ int mallocStruct(){
 
 //-----------------------------------------------------------------------------------------------------------
 
-int mallocString() {
+int mallocString(){
     char **strings;
     int total = 0;
     printf("Enter Number Of Strings: ");
