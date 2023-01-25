@@ -18,6 +18,7 @@ int main(){
 // portion of the memory. Therefore, once you compile your code, it knows
 // that it needs to allocate 4bytes of memory to hold the address, the pointer
 // variable.
+
 // After that, from line 9 onwards, everything is being
 // dynamically created. Where the function pass firststruct=malloc
 // (sizeof(struct mystruct)), it request enough memory from the heap to store
@@ -25,6 +26,7 @@ int main(){
 // in the firststruct pointer variable and creates the first link. As you can see in
 // the diagram, the firststruct is at #1000, and that value 1000 gets stored into
 // the firststruct pointer variable.
+
 // Now we need to connect the first dynamically allocated struct
 // to the second structure. To do so, we need to call malloc function again
 // using the pointer variable inside the firststruct. Once the malloc returns with
@@ -32,5 +34,4 @@ int main(){
 // to the nextstruct pointer variable which is inside firststruct.
 // So basically, we can keep adding new structs. The basic idea
 // here is that we can access every struct because they are all linked together
-// 7 January, 2021
 // by this chain of pointers. And that's a fundamental idea behind a linked list.
