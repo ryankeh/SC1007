@@ -1,5 +1,5 @@
 #include <stdlib.h>
-//school one but why tf does it work
+//you can write more than the allocated memory but you would have overwritten parts of the memory that store other data
 
 int main(){
     int n;
