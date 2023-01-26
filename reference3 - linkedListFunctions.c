@@ -5,6 +5,7 @@ void printList (ListNode *head)
 ListNode * findNode(ListNode *head, int index)
 int insertNode(ListNode **ptrHead, int index, int value)
 int removeNode(ListNode **ptrHead, int index)
+int sizeList(ListNode *head)
 
 
 int main() {
@@ -58,4 +59,14 @@ int insertNode(ListNode **ptrHead, int index, int value){
     return -1;
 }
 
-    
+int sizeList(ListNode *head){
+    int count = 0;
+    if (head == NULL){
+        return 0;
+    }
+    while (head != NULL){
+        head = head->next;
+        count++;
+    }
+    return count;
+}
