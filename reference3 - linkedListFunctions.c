@@ -31,3 +31,38 @@ ListNode * findNode(ListNode *head, int index){
     }
     return head;
 }
+
+// normal case
+int insertNode(){
+    if ((pre = findNode(*ptrHead, index-1)) != NULL){
+        cur = pre->next;
+        pre->next = malloc(sizeof(ListNode));
+        pre->next->item = value;
+        pre->next->next = cur;
+        return 0;
+    }
+    return -1;
+}
+
+//for empty list and inserting node at index 0
+int insertNode(ListNode **ptrHead, int index, int value){
+    ListNode *pre, *cur;
+    // If empty list or inserting first node, need to update head pointer
+    if (*ptrHead == NULL || index == 0){
+        cur = *ptrHead;
+        *ptrHead = malloc(sizeof(ListNode));
+        (*ptrHead)->item = value;
+        (*ptrHead)->next = cur;
+        return 0;
+    }
+    // Find the nodes before and at the target position
+    // Create a new node and reconnect the links
+    if ((pre = findNode(*ptrHead, index-1)) != NULL){
+        cur = pre->next;
+        pre->next = malloc(sizeof(ListNode));
+        pre->next->item = value;
+        pre->next->next = cur;
+        return 0;
+    }
+    return -1;
+}
