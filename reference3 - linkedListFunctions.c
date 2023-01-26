@@ -3,6 +3,7 @@
 
 void printList (ListNode *head)
 ListNode * findNode(ListNode *head, int index)
+int insertNode(ListNode **ptrHead, int index, int value)
 
 
 int main() {
@@ -32,21 +33,9 @@ ListNode * findNode(ListNode *head, int index){
     return head;
 }
 
-// normal case
-int insertNode(){
-    if ((pre = findNode(*ptrHead, index-1)) != NULL){
-        cur = pre->next;
-        pre->next = malloc(sizeof(ListNode));
-        pre->next->item = value;
-        pre->next->next = cur;
-        return 0;
-    }
-    return -1;
-}
-
-//for empty list and inserting node at index 0
 int insertNode(ListNode **ptrHead, int index, int value){
     ListNode *pre, *cur;
+    // For empty list and inserting node at index 0
     // If empty list or inserting first node, need to update head pointer
     if (*ptrHead == NULL || index == 0){
         cur = *ptrHead;
@@ -55,6 +44,7 @@ int insertNode(ListNode **ptrHead, int index, int value){
         (*ptrHead)->next = cur;
         return 0;
     }
+    // Normal Case
     // Find the nodes before and at the target position
     // Create a new node and reconnect the links
     if ((pre = findNode(*ptrHead, index-1)) != NULL){
@@ -66,3 +56,5 @@ int insertNode(ListNode **ptrHead, int index, int value){
     }
     return -1;
 }
+
+    
