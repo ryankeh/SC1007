@@ -4,6 +4,7 @@
 void printList (ListNode *head)
 ListNode * findNode(ListNode *head, int index)
 int insertNode(ListNode **ptrHead, int index, int value)
+int removeNode(ListNode **ptrHead, int index)
 
 
 int main() {
