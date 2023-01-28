@@ -11,29 +11,6 @@ typedef struct _linkedlist{
     ListNode *head;
     int size;
 } LinkedList;
-
-int main() {
-    ListNode *head = NULL;
-    int listsize = 0;
-    srand(time(NULL));
-    while (listsize < 10){
-        insertNode(&head, 0, rand() % 100);
-        listsize++;
-        printf("List: ");
-        printList(head);
-        printf("\n");
-    }
-    printf("%d nodes\n", listsize);
-    
-    while (size > 0){
-        removeNode(&head, listsize-1);
-        listsize--;
-        printf("List: ");
-        printList(head);
-        printf("\n");
-    }
-    printf("%d nodes\n", listsize);
-    return 0;
     
 int main(){
     LinkedList ll;
@@ -49,7 +26,6 @@ int main(){
     printList(ptr_ll);
     printf(“%d nodes\n”, ptr_ll->size);
     removeNode(ptr_ll, 0);
-    }
 }
 
 //Declare a temp pointer instead of using head (it is no longer a local variable; it is the actual head pointer)
