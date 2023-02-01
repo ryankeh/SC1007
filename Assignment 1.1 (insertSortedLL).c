@@ -98,11 +98,23 @@ int insertSortedLL(LinkedList *ll, int item)
 	    insertNode( ll, 0, item);
 	    return 0;
 	}
-	else if 
 	while(cur != NULL){
-	    pre = cur;
-	    cur = cur -> next;
-	};
+	    printf("hello");
+	    if(item<(findNode(ll, i)->item)){
+	        insertNode(11,i,item);
+	        i++;
+	        return i;
+	    }
+	    else if(item==(findNode(ll, i)->item)){
+	        return -1;
+	    }
+	    else{
+	        cur = cur -> next;
+	        i++;
+	    }
+	}
+	insertNode( ll, i, item);
+	return i;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
