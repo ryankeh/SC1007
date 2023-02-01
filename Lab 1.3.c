@@ -122,12 +122,12 @@ split(ListNode *head, ListNode **ptrEvenList, ListNode **ptrOddList){
             printList(*ptrOddList);
             return;
         }
-        else if(i/2==0){
+        else if(i%2==0){
             insertNode(ptrEvenList, evenIndex, findNode(*ptrHead,i));
             evenIndex++;
             i++;
         }
-        else if(i/2==1){
+        else if(i%2==1){
             insertNode(ptrOddList, oddIndex, findNode(*ptrHead,i));
             oddIndex++;
             i++;
