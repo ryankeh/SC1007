@@ -92,5 +92,23 @@ int insertNode(ListNode **ptrHead, int index, int item){
 
 int removeNode(ListNode **ptrHead,int index)
 {
-/* Write your program code here */
+    ListNode *pre, *cur;
+    
+    if (index == 0){
+        cur = (*ptrHead)->next;
+		free((*ptrHead));
+		(*ptrHead) = cur;
+        return 1;
+    }
+        
+    else if ((pre = findNode(*ptrHead, index-1)) != NULL){
+        if (pre->next == NULL)
+			return 0;
+		cur = pre->next;
+		pre->next = cur->next;
+		free(cur);
+		return 1;
+    }
+    
+    return 0;
 }
