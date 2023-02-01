@@ -86,7 +86,34 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+	LinkedList oddList;
+	oddList.head = NULL;
+	oddList.size = 0;
+	int i=0, j=0, k=0, temp=0, listSize=(ll->size);
+	ListNode *cur;
+	
+    for(i=0;i<listSize;i++){
+        temp = (findNode(ll,j)->item);
+        if(temp%2==1){
+            removeNode(ll,j);
+            insertNode(&oddList, k, temp);
+            k++;
+        }
+        else{
+            j++;
+        }
+    }
+
+    cur = ll->head;
+    if(cur == NULL){
+        ll->head = oddList.head;
+        return;
+    } //testing if there are any items left in original linked list
+    while ((cur->next) != NULL ){
+		cur = cur->next;
+	}
+	cur->next = oddList.head;
+	return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
