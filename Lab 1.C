@@ -102,13 +102,13 @@ int removeNode(ListNode **ptrHead,int index)
     }
         
     else if ((pre = findNode(*ptrHead, index-1)) != NULL){
-        if (pre->next == NULL)
-			return 0;
+        if (pre->next == NULL){
+            return 0;
+        }
 		cur = pre->next;
 		pre->next = cur->next;
 		free(cur);
 		return 1;
     }
-    
     return 0;
 }
