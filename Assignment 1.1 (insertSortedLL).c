@@ -94,12 +94,12 @@ int insertSortedLL(LinkedList *ll, int item)
 	int i=0;
 	
 	cur = ll -> head;
-	
+	//for first node
 	if(cur == NULL){
 	    insertNode(ll, 0, item);
 	    return 0;
 	}
-	printList(ll);
+	//for subsequent nodes
 	while(cur != NULL){
 	    if(item<(findNode(ll, i)->item)){
 	        insertNode(ll,i,item);
@@ -113,6 +113,7 @@ int insertSortedLL(LinkedList *ll, int item)
 	        i++;
 	    }
 	}
+	//if item is largest in linked list
 	insertNode( ll, i, item);
 	return i;
 }
