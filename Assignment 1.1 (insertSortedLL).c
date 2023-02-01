@@ -103,8 +103,7 @@ int insertSortedLL(LinkedList *ll, int item)
 	while(cur != NULL){
 	    if(item<(findNode(ll, i)->item)){
 	        insertNode(ll,i,item);
-	        i++;
-	        return 1;
+	        return i;
 	    }
 	    else if(item==(findNode(ll, i)->item)){
 	        return -1;
