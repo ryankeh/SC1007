@@ -91,19 +91,20 @@ int main()
 int insertSortedLL(LinkedList *ll, int item)
 {
 	ListNode *cur, *pre;
-	int i;
+	int i=0;
 	
 	cur = ll -> head;
+	
 	if(cur == NULL){
-	    insertNode( ll, 0, item);
+	    insertNode(ll, 0, item);
 	    return 0;
 	}
+	printList(ll);
 	while(cur != NULL){
-	    printf("hello");
 	    if(item<(findNode(ll, i)->item)){
-	        insertNode(11,i,item);
+	        insertNode(ll,i,item);
 	        i++;
-	        return i;
+	        return 1;
 	    }
 	    else if(item==(findNode(ll, i)->item)){
 	        return -1;
