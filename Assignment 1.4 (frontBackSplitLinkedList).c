@@ -129,6 +129,7 @@ void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, Linke
 	
 	resultBackList->head = cur->next;
 	cur->next=NULL;
+	ll->head=NULL;
 	return;
 }
 
