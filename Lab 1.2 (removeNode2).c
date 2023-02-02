@@ -18,7 +18,7 @@ typedef struct _linkedlist
 void printList(ListNode *cur);
 ListNode * findNode(ListNode *cur, int index);
 int insertNode(ListNode **ptrHead, int index, int item);
-
+int removeNode2(LinkedList *ll,int index);
 int removeNode(ListNode **ptrHead,int index);
 
 int main()
