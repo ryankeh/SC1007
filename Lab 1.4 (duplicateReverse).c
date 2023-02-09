@@ -102,14 +102,19 @@ void deleteList(ListNode **ptrHead){
 
 int duplicateReverse(ListNode *cur,ListNode **ptrNewHead)
 {
-    int i=0,j=0;
-    printf("hello");
-    ptrNewHead=&cur;
-    printf("hello2");
-    while (*ptrNewHead->next!= NULL){
+    int i=0,j=0,item;
+    ListNode *temp;
+    
+    temp=cur;
+    while (temp->next!= NULL){
         i++;
-        *ptrNewHead=*ptrNewHead->next;
+        temp= temp->next;
     }
-    printf("%d\n", i);
+    // i=index of last node
+    for(i;i>=0;i--){
+        item=findNode(cur, i)->item;
+        insertNode(ptrNewHead, j, item);
+        j++;
+    }
     return 0;
 }
