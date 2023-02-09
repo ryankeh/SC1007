@@ -52,7 +52,6 @@ int main()
 }
 
 void printList(ListNode *cur){
-    printf("Current List: ");
     while (cur != NULL){
         printf("%d ", cur->item);
         cur = cur->next;
