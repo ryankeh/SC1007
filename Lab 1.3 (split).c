@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -107,25 +106,23 @@ void deleteList(ListNode **ptrHead){
 	*ptrHead=NULL;
 }
 
-int split(ListNode *cur, ListNode **ptrEvenList,ListNode **ptrOddList)
-{
+int split(ListNode *cur, ListNode **ptrEvenList,ListNode **ptrOddList){
+    
     int i=0,oddIndex=0,evenIndex=0;
     
     while(1){
-        if(findNode(*ptrHead, i)) == NULL){
-            printList(*ptrEvenList);
-            printList(*ptrOddList);
-            return;
-        }
-        else if(i%2==0){
-            insertNode(ptrEvenList, evenIndex, findNode(*ptrHead,i));
+        if(i%2==0){
+            insertNode(ptrEvenList, evenIndex, findNode(cur,i)->item);
             evenIndex++;
             i++;
         }
         else if(i%2==1){
-            insertNode(ptrOddList, oddIndex, findNode(*ptrHead,i));
+            insertNode(ptrOddList, oddIndex, findNode(cur,i)->item);
             oddIndex++;
             i++;
+        }
+        if((findNode(cur,i-1))->next == NULL){
+            return 0;
         }
     }
 }
