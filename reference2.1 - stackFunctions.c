@@ -43,3 +43,21 @@ int main(){
         printf("%d ", pop(&s));
     return 0;
 }
+
+//Reverse list of integers
+int reverseInt(){
+    int i = 0;
+    Stack s;
+    s.ll.head = NULL;
+    printf("Enter a number: ");
+    scanf("%d", &i);
+    while (i != -1){
+        push(&s, i);
+        printf("Enter a number: ");
+        scanf("%d", &i);
+    }
+    printf("Popping stack: ");
+    while (!isEmptyStack(&s))
+        printf("%d ", pop(&s));
+    return 0;
+}
