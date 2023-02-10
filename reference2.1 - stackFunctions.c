@@ -3,6 +3,11 @@ typedef struct _stack{
     LinkedList ll;
 } Stack;
 
+void push(Stack *s, int item);
+void push(Stack *s, int item);
+int isEmptyStack(Stack *s);
+int peek(Stack *s);
+
 //Stack functions
 void push(Stack *s, int item){
     insertNode(&(s->ll), 0, item);
