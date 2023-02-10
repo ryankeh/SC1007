@@ -1,3 +1,4 @@
+//Queue structure
 typedef struct _queue{
     LinkedList ll;
 } Queue;
@@ -16,6 +17,7 @@ int main(){
     printf("%d ", dequeue(&q));
 }
 
+//Queue functions
 void enqueue(Queue *q, int item){
     insertNode(&(q->ll), q->ll.size, item);
 }
