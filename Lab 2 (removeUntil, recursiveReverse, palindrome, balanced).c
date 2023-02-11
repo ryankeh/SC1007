@@ -125,12 +125,11 @@ void removeUntil(Stack *s, int value){
 
 void recursiveReverse(Queue *q){
     Stack s;
-    ListNode *cur, *cur2;
     //initialize temp stack
     s.ll.head = NULL;
-	s.ll.size = 0;
-	s.ll.tail = NULL;
-	//moving to temp stack then moving back into queue
+    s.ll.size = 0;
+    s.ll.tail = NULL;
+    //moving to temp stack then moving back into queue
     while(!isEmptyQueue(q)){
         push(&s,dequeue(q));
     }
