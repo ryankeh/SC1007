@@ -124,9 +124,21 @@ void removeUntil(Stack *s, int value){
 //Question 2
 
 void recursiveReverse(Queue *q){
-
-	// write your code here
-
+    Stack s;
+    ListNode *cur, *cur2;
+    //initialize temp stack
+    s.ll.head = NULL;
+	s.ll.size = 0;
+	s.ll.tail = NULL;
+	//moving to temp stack then moving back into queue
+    while(!isEmptyQueue(q)){
+        push(&s,dequeue(q));
+    }
+    
+    while(!isEmptyStack(&s)){
+        enqueue(q,pop(&s));
+    }
+    return;
 }
 
 ////////////////////////////////////////////////////////////
