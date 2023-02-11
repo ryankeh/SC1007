@@ -111,7 +111,6 @@ int main()
 //Question 1
 
 void removeUntil(Stack *s, int value){
-    int i=0;
     ListNode *cur;
     cur = s->ll.head;
     while(cur->item != value){
