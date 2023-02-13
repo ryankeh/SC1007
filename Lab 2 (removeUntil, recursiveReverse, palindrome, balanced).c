@@ -183,9 +183,31 @@ int palindrome(char *word){
 //Question 4
 
 int balanced(char *expression){
-
-	// write your code here
-
+    int i=0, length=0;
+    Stack s;
+    s.ll.head = NULL;
+    s.ll.size = 0;
+    s.ll.tail = NULL;
+    
+    length = strlen(expression);
+    printf("%s %d\n", expression, length);
+    for(i=0;i<length;i++){
+        if (expression[i] == '(' || expression[i] == '{' || expression[i] == '[') {
+            push(&s,expression[i]);
+            continue;
+        }
+        else if (expression[i] == ')' && pop(&s)=='(') {
+                continue;
+        }
+        else if (expression[i] == ']' && pop(&s)=='[') {
+                continue;
+        }
+        else if (expression[i] == '}' && pop(&s)=='{') {
+                continue;
+        }
+        return 1;
+        }
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////
