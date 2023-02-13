@@ -144,44 +144,40 @@ void recursiveReverse(Queue *q){
 //Question 3
 
 int palindrome(char *word){
-int i=0, length;
-    printf("Enter a string: %s\n", &word[i]);
-    // for(int i = 0; word[i]; i++){
-    //     word[i] = tolower(word[i]);
-    // }
-    
+    int i=0, length;
     Stack s;
     //initialize temp stack
     s.ll.head = NULL;
-	s.ll.size = 0;
-	s.ll.tail = NULL;
+    s.ll.size = 0;
+    s.ll.tail = NULL;
 	
-	Queue q;
+    Queue q;
     //initialize temp queue
     q.ll.head = NULL;
-	q.ll.size = 0;
-	q.ll.tail = NULL;
+    q.ll.size = 0;
+    q.ll.tail = NULL;
     
     length = strlen(word);
+    printf("Enter a string: %s\n", &word[i]);
+    
     for(i=0;i<length;i++){
         if(word[i]!=32){
-            push(&s,word[i]);
-            enqueue(&q,word[i]);
+            push(&s,tolower(word[i]));
+            enqueue(&q,tolower(word[i]));
         }
     }
     
     while(!isEmptyStack(&s)){
-        printf("%d - %d\n", dequeue(&q), pop(&s));
-        // if(dequeue(&q)!=pop(&s)){
-        //     printf("The string is not a palindrome.\n");
-        //     return -1;
-        // }
+        // printf("%d - %d\n", dequeue(&q), pop(&s));
+        // comparing the values
+        if(dequeue(&q)!=pop(&s)){
+            printf("The string is not a palindrome.\n");
+            return -1;
+        }
     }
     printf("The string is a palindrome.\n");
     return 0;
 }
-
-
 
 ////////////////////////////////////////////////////////////
 //Question 4
