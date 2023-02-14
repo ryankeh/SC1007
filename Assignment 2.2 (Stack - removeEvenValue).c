@@ -110,6 +110,9 @@ void createStackFromLinkedList(LinkedList *ll, Stack *s)
 {
     ListNode *cur;
     cur = ll->head;
+    if(cur==NULL){
+        return;
+    }
     push(s,cur->item);
     while(cur->next != NULL){
         cur = cur->next;
