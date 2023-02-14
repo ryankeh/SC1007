@@ -114,6 +114,9 @@ void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 {
     ListNode *cur;
     cur = ll->head;
+    if(cur==NULL){
+        return;
+    }
     enqueue(q,cur->item);
     while(cur->next != NULL){
         cur = cur->next;
