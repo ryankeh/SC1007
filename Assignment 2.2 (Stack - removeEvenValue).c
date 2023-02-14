@@ -108,7 +108,7 @@ int main()
 
 void createStackFromLinkedList(LinkedList *ll, Stack *s)
 {
-	ListNode *cur;
+    ListNode *cur;
     cur = ll->head;
     push(s,cur->item);
     while(cur->next != NULL){
@@ -120,7 +120,7 @@ void createStackFromLinkedList(LinkedList *ll, Stack *s)
 
 void removeEvenValues(Stack *s)
 {
-	Stack s2;
+    Stack s2;
     s2.ll.head = NULL;
     s2.ll.size = 0;
     
