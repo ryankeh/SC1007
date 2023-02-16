@@ -10,3 +10,10 @@ Void TreeTraversal2(BTNode *cur){
     TreeTraversal2(cur->left);
     TreeTraversal2(cur->right);
 }
+
+int countNode(BTNode *cur){
+    if (cur == NULL)
+        return 0;
+    return (countNode(cur->left) + countNode(cur->right) + 1);
+}
+
