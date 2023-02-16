@@ -17,3 +17,17 @@ int countNode(BTNode *cur){
     return (countNode(cur->left) + countNode(cur->right) + 1);
 }
 
+void findgrandchildren(
+BTNode *cur, int c){
+    if (cur == NULL) return;
+    if (c == k){
+        printf(“%d ”, cur->item);
+        return;
+    }
+    if (c < k){
+        findgrandchildren(cur->left, c+1);
+        findgrandchildren(cur->right, c+1);
+    }
+}
+
+
