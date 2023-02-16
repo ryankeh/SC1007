@@ -30,4 +30,13 @@ BTNode *cur, int c){
     }
 }
 
+int TreeTraversal(BTNode *cur){
+    if(cur == NULL)
+        return -1;
+    int l = TreeTraversal(cur->left);
+    int r = TreeTraversal(cur->right);
+    int c = max (l, r) + 1;
+    return c;
+}
+
 
