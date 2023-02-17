@@ -5,7 +5,10 @@ typedef struct _btnode{
 } BTNode;
 
 void BSTT(BTNode *cur, char c){
-    if (cur == NULL) return;
+    if (cur == NULL){
+        printf(“can’t find!”);
+        return;
+    }
     if (c==cur->item){
         printf(“found!\n”);
         return;
@@ -15,3 +18,5 @@ void BSTT(BTNode *cur, char c){
     else
         BSTT(cur->right,c);
 }
+
+
