@@ -112,7 +112,7 @@ void reverse(Queue *q)
     s.ll.head = NULL;
     s.ll.size = 0;
 
-	int i=0, temp=0, length=0;
+    int i=0, temp=0, length=0;
     length=q->ll.size;
     for(i=0;i<length;i++){
         push(&s,dequeue(q));
