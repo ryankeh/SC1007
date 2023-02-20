@@ -86,7 +86,7 @@ void postOrderIterativeS2(BSTNode *root)
 {
     Stack s1, s2;
     s1.top = NULL;
-	  s2.top = NULL;
+    s2.top = NULL;
     BSTNode *current;
     BSTNode *popped_item;
     
