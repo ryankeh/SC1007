@@ -24,10 +24,11 @@ typedef struct _stack
 ///////////////////////// function prototypes ////////////////////////////////////
 
 // You should not change the prototypes of these functions
-void postOrderIterativeS2(BSTNode *root);
+void postOrderIterativeS1(BSTNode *node);
 
 void insertBSTNode(BSTNode **node, int value);
 
+// You may use the following functions or you may write your own
 void push(Stack *stack, BSTNode *node);
 BSTNode *pop(Stack *s);
 BSTNode *peek(Stack *s);
@@ -64,7 +65,7 @@ int main()
 			break;
 		case 2:
 			printf("The resulting post-order traversal of the binary search tree is: ");
-			postOrderIterativeS2(root); // You need to code this function
+			postOrderIterativeS1(root); // You need to code this function
 			printf("\n");
 			break;
 		case 0:
@@ -82,31 +83,40 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void postOrderIterativeS2(BSTNode *root)
+void postOrderIterativeS1(BSTNode *root)
 {
-	Stack s1, s2;
-    s1.top = NULL;
-	s2.top = NULL;
+	Stack s;
+    s.top = NULL;
     BSTNode *current;
-    BSTNode *popped_item;
+    BSTNode *temp;
     
-	push(&s1, root);
+	while(1){
+		while(root!=NULL){
+			
+			if(root->right!=NULL){
+				push(&s,root->right);
+			}
+			push(&s,root);
+			if(root->left!=NULL){
+				root=root->left;
+			}
+			else{root=NULL;}
+		}
 
-	while(s1.top!=NULL){
-		popped_item = pop(&s1);
-		push(&s2, popped_item);
-		if(popped_item->left!=NULL){
-			push(&s1, popped_item->left);
+		root = pop(&s);
+		if(root->right!=NULL && (root->right)==peek(&s)){
+			temp = pop(&s);
+			push(&s, root);
+			root = temp; 
 		}
-		if(popped_item->right!=NULL){
-			push(&s1, popped_item->right);
+		else{
+			printf("%d ", root->item);
+			root=NULL;
 		}
+		if(s.top==NULL) return;
 	}
 
-	while(s2.top!=NULL){
-		popped_item = pop(&s2);
-		printf("%d ", popped_item->item);
-	}
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
