@@ -84,7 +84,10 @@ int moveMaxToFront(ListNode **ptrHead)
 {
     int i=0, size;
     ListNode *cur,*pre,*preMax;
-    
+	
+    if(*ptrHead == NULL) return 0;
+    if((*ptrHead)->next == NULL) return 0;	
+
     cur = *ptrHead;
     preMax = cur;
     while(cur!=NULL){
