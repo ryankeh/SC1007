@@ -106,6 +106,9 @@ int duplicateReverse(ListNode *cur,ListNode **ptrNewHead)
     ListNode *temp;
     
     temp=cur;
+    if(temp==NULL) return -1;
+    if(temp->next==NULL) return 0;
+    
     while (temp->next!= NULL){
         i++;
         temp= temp->next;
