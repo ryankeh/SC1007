@@ -1,3 +1,5 @@
+//Melvins check both side individually method but realised won't work for test case
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -45,6 +47,8 @@ int peek(Stack s);
 int isEmptyStack(Stack s);
 void removeAllItemsFromStack(Stack *sPtr);
 //////////////////////////////////
+
+int checkPrjPath(int student);
 
 //Global Variables
 int Prj, Std, Mtr; //Project, Student and Mentor;
@@ -155,117 +159,17 @@ int main()
    //---------------------------------------------------------------------------------------------------------------------
 
    for(i=0;i<Std;i++){
-      //initialising stacks
-      Stack s;
-      s.head = NULL;
-      s.size = 0;
+      printf("iteration: %d\n", i);
+      checkPrjPath(i);
 
-      Stack indiStack;
-      indiStack.head = NULL;
-      indiStack.size = 0;
-
-      //initialising queue for recording path
-      Queue path;
-      path.head = NULL;
-      path.size = 0;
-      path.tail = NULL;
-
-      //---------------------------------------------------------------------------------------------------------------------
-
-
-      push(&s, i+1);
-      push(&indiStack, 0);
-
-      int indicator;
-      int hello=0;
-      //indicator: 0=student, 1=project
-
-      while(!isEmptyStack(s)){
-         if(hello==1) break;
-         
-         int cur = peek(s);
-         int indicator = peek(indiStack);
-         pop(&s);
-         pop(&indiStack);
-
-         //student is top of the stack
-         if(indicator==0){
-            enqueue(&path, cur);
-
-            
-            for(j=0;j<Prj;j++){
-               //project successfully found
-               if(std_Prj_matrix[cur-1][j]==1 && prj_visited[j]==0){
-                  prj_visited[j]=1;
-                  enqueue(&path, j+1);
-
-                  //printing path
-                  printQ(path.head);
-
-                  while(path.size>2){
-                     printf("Clash\n");
-                     int pre,next;
-                     pre = getFront(path);
-                     dequeue(&path);
-                     next = getFront(path);
-                     //flipping arrow
-                     printf("next, pre: %d  %d\n",next,pre);
-                     std_Prj_matrix[pre-1][next-1] = -1;
-
-                     pre = getFront(path);
-                     dequeue(&path);
-                     next = getFront(path);
-                     //flipping arrow
-                     printf("next, pre: %d  %d\n",next,pre);
-                     std_Prj_matrix[next-1][pre-1] = 1;
-                  }
-
-                  while(!isEmptyQueue(path)){
-                     int pre,next;
-                     pre = getFront(path);
-                     dequeue(&path);
-                     next = getFront(path);
-                     dequeue(&path);
-                     //flipping arrow
-                     std_Prj_matrix[pre-1][next-1] = -1;
-                     
-                     printf("next, pre: %d  %d\n",next,pre);
-                  }
-
-                  hello=1;
-                  break;
-               }
-
-               
-            
-            
-            }
-            if(hello==1) break;
-            
-            //pushing projects to stack
-            for(j=0;j<Prj;j++){
-               if(std_Prj_matrix[cur-1][j]==1){
-                  push(&s, j+1);
-                  push(&indiStack, 1);
-               }
-            }
-         }
-
-         //-----------------------------------------------------------------------------------------------------------------
-
-         //project is top of the stack
-         if(indicator==1){
-            enqueue(&path, cur);
-
-            for(j=0;j<Std;j++){
-               if(std_Prj_matrix[cur-1][j]==-1){
-                  push(&s, i+1);
-                  push(&indiStack, 0);
-               }
-            
-            }
-         }
+      for(int x=0;x<Prj;x++){
+         printf("prj_visited[%d]=%d\n", x,prj_visited[x]);
       }
+   }
+
+   printf("\n");
+   for(i=0;i<Std;i++){
+      printf("Student %d: %d\n",i,std1_visited[i]);
    }
       
    
@@ -282,13 +186,134 @@ int main()
    return 0;
 }
 
-int matching(Graph g)
-{
 
- //Write your code
- return 0;
 
+
+
+
+
+
+
+int checkPrjPath(int i){
+   //initialising stacks
+   Stack s;
+   s.head = NULL;
+   s.size = 0;
+
+   Stack indiStack;
+   indiStack.head = NULL;
+   indiStack.size = 0;
+
+   //initialising queue for recording path
+   Queue path;
+   path.head = NULL;
+   path.size = 0;
+   path.tail = NULL;
+
+   int indicator;
+   int j,k;
+   //indicator: 0=student, 1=project
+
+   //---------------------------------------------------------------------------------------------------------------------
+   push(&s, i+1);
+   printf("pushed student: %d\n", peek(s));
+   push(&indiStack, 0);
+
+   while(!isEmptyStack(s)){
+      int cur = peek(s);
+      int indicator = peek(indiStack);
+      printf("pop: %d, indicator:%d\n", peek(s),peek(indiStack));
+      pop(&s);
+      pop(&indiStack);
+
+      //student is top of the stack
+      if(indicator==0){
+         enqueue(&path, cur);
+
+         for(j=0;j<Prj;j++){
+            //project successfully found
+            printf("j: %d, vertice: %d, visited: %d\n", j,std_Prj_matrix[cur-1][j],prj_visited[j]);
+            if(std_Prj_matrix[cur-1][j]==1 && prj_visited[j]==0){
+               prj_visited[j]=1;
+               enqueue(&path, j+1);
+
+               //printing path
+               printQ(path.head);
+
+               while(path.size>2){
+                  printf("Clash\n");
+                  int pre,next;
+                  pre = getFront(path);
+                  dequeue(&path);
+                  next = getFront(path);
+                  //flipping arrow
+                  printf("next, pre: %d  %d\n",next,pre);
+                  std_Prj_matrix[pre-1][next-1] = -1;
+
+                  pre = getFront(path);
+                  dequeue(&path);
+                  next = getFront(path);
+                  //flipping arrow
+                  printf("next, pre: %d  %d\n",next,pre);
+                  std_Prj_matrix[next-1][pre-1] = 1;
+               }
+
+               while(!isEmptyQueue(path)){
+                  int pre,next;
+                  pre = getFront(path);
+                  dequeue(&path);
+                  next = getFront(path);
+                  dequeue(&path);
+                  //flipping arrow
+                  std_Prj_matrix[pre-1][next-1] = -1;
+                     
+                  printf("next, pre: %d  %d\n",next,pre);
+                  std1_visited[pre-1]=1;
+                  return 0;
+
+               }
+            }
+         }
+
+         //pushing projects to stack
+         for(j=0;j<Prj;j++){
+            if(std_Prj_matrix[cur-1][j]==1){
+               push(&s, j+1);
+               push(&indiStack, 1);
+               printf("pushed project: %d\n", peek(s));
+            }
+         }
+
+         //-----------------------------------------------------------------------------------------------------------------
+
+         //project is top of the stack
+         if(indicator==1){
+            enqueue(&path, cur);
+
+         for(j=0;j<Std;j++){
+            if(std_Prj_matrix[cur-1][j]==-1){
+               push(&s, i+1);
+               push(&indiStack, 0);
+               }
+            }         
+         }
+      }
+   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void removeAdjVertex(ListNode** AdjList,int vertex)
 {
