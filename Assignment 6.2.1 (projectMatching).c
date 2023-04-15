@@ -1,3 +1,6 @@
+//first draft
+//did not account for mentor allowing backtracking via the backwards arrow even if it has been assigned
+
 #include <stdio.h>
 #include <stdlib.h>
 
