@@ -1,4 +1,5 @@
-//Melvins check both side individually method but realised won't work for test case
+//Melvin's check both side method but should check for match for both before flipping arrow
+//code below just matches first 3 student to proj and last 3 to mentor so total matches is only 2 instead of 3
 
 #include <stdio.h>
 #include <stdlib.h>
