@@ -59,6 +59,7 @@ int *std_Std_matrix;
 int **std_Mtr_matrix;
 
 int* prj_visited;
+int* std_visited;
 int* mtr_visited;
 //can tell if student was visited by the std_Std_matrix
 //----------------------------------------------------------------------------------------------------
@@ -152,11 +153,12 @@ int main()
 
    //initialising visited arrays
    prj_visited = (int *)malloc(Prj * sizeof(int));
+   std_visited = (int *)malloc(Std * sizeof(int));
    mtr_visited = (int *)malloc(Mtr * sizeof(int));
 
-   //  hasPath(prj_Std_matrix, std_Mtr_matrix, vertices, 1);
-   //  hasPath(prj_Std_matrix, std_Mtr_matrix, vertices, 2);
-   //  hasPath(prj_Std_matrix, std_Mtr_matrix, vertices, 3);
+   //  hasPath(1);
+   //  hasPath(2);
+   //  hasPath(3);
 
 
 
@@ -177,45 +179,53 @@ int main()
 
 int hasPath(int start)
 {
-
-   //initialising queue for recording path
+   //initialising queues for recording path
    Queue path;
    path.head = NULL;
    path.size = 0;
    path.tail = NULL;
+
+   Queue path2;
+   path2.head = NULL;
+   path2.size = 0;
+   path2.tail = NULL;
 
    //initialising stacks
    Stack s;
    s.head = NULL;
    s.size = 0;
 
-   Stack indiStack;
-   indiStack.head = NULL;
-   indiStack.size = 0;
+   Stack s2;
+   s2.head = NULL;
+   s2.size = 0;
+
+   //----------------------------------------------------------------------------------------------------
 
    push(&s, start);
-   push(&indiStack, 0);
+   push(&s2, 0);
    prj_visited[start]=1;
 
    int i,j,k;
    int indicator;
-   //indicator: 0=project, 1=student
+   //indicator: 0=project, 1=student, 2=mentor
 
    while(!isEmptyStack(s)){
       int cur = peek(s);
-      int indicator = peek(indiStack);
+      int indicator = peek(s2);
       pop(&s);
-      pop(&indiStack);
+      pop(&s2);
 
       //project is top of the stack
       if(indicator==0){
          prj_visited[cur-1]=1;
+         //enqueue project to path
          enqueue(&path, cur);
+         enqueue(&path2, 0);
 
          for(i=0;i<Std;i++){
             if(prj_Std_matrix[cur-1][i]==1 && std_visited[i]==0){
                push(&s, i+1);
-               push(&indiStack, 1);
+               push(&s2, 1);
             }
          }
       }
@@ -224,60 +234,66 @@ int hasPath(int start)
       if(indicator==1){
          std_visited[cur-1]=1;
          enqueue(&path, cur);
+         enqueue(&path2, 1);
          int hello=0;
 
-         for(i=0;i<Mtr;i++){
-            if(std_Mtr_matrix[cur-1][i]==1 && mtr_visited[i]==0){
-               //successfully reached mentor
-               mtr_visited[i]=1;
-               enqueue(&path, i+1);
+         //student is facing towards mentor
+         if(std_Std_matrix[cur-1]==1){
+            for(i=0;i<Mtr;i++){
+               if(std_Mtr_matrix[cur-1][i]==1 && mtr_visited[i]==0){
+                  //successfully reached mentor
+                  mtr_visited[i]=1;
+                  enqueue(&path, i+1);
 
-               printQ(path.head);
-               while(path.size>3){
-                  int pre,next;
-                  pre = getFront(path);
-                  dequeue(&path);
-                  next = getFront(path);
-                  //flipping arrow
-                  prj_Std_matrix[pre-1][next-1] = -1;
+                  printQ(path.head);
+                  while(path.size>3){
+                     int pre,next;
+                     pre = getFront(path);
+                     dequeue(&path);
+                     next = getFront(path);
+                     //flipping arrow
+                     prj_Std_matrix[pre-1][next-1] = -1;
 
-                  pre = getFront(path);
-                  dequeue(&path);
-                  next = getFront(path);
-                  //flipping arrow
-                  prj_Std_matrix[next-1][pre-1] = 1;
+                     pre = getFront(path);
+                     dequeue(&path);
+                     next = getFront(path);
+                     //flipping arrow
+                     prj_Std_matrix[next-1][pre-1] = 1;
+                  }
+
+                  while(!isEmptyQueue(path)){
+                     int pre,next;
+                     pre = getFront(path);
+                     dequeue(&path);
+                     next = getFront(path);
+                     //flipping arrow
+                     prj_Std_matrix[pre-1][next-1] = -1;
+
+                     pre = getFront(path);
+                     dequeue(&path);
+                     next = getFront(path);
+                     //flipping arrow
+                     printf("next, pre: %d  %d\n",next,pre);
+                     std_Mtr_matrix[pre-1][next-1] = -1;
+                     dequeue(&path);
+
+                  }
+
+                  return 1;
                }
+            }
+            
 
-               while(!isEmptyQueue(path)){
-                  int pre,next;
-                  pre = getFront(path);
-                  dequeue(&path);
-                  next = getFront(path);
-                  //flipping arrow
-                  prj_Std_matrix[pre-1][next-1] = -1;
-
-                  pre = getFront(path);
-                  dequeue(&path);
-                  next = getFront(path);
-                  //flipping arrow
-                  printf("next, pre: %d  %d\n",next,pre);
-                  std_Mtr_matrix[pre-1][next-1] = -1;
-                  dequeue(&path);
-
+            for(i=0;i<Prj;i++){
+               if(prj_Std_matrix[cur-1][i]==-1 && prj_visited[i]==0){
+                  push(&s, i+1);
+                  push(&s2, 0);
                }
-
-               hello=1;
-               break;
             }
          }
-         if(hello==1) break;
 
-         for(i=0;i<Prj;i++){
-            if(prj_Std_matrix[cur-1][i]==-1 && prj_visited[i]==0){
-               push(&s, i+1);
-               push(&indiStack, 0);
-            }
-         }
+         
+
       }
 
    }
