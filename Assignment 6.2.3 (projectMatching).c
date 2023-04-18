@@ -340,9 +340,9 @@ int hasPath(int start)
 
       //mentor is top of the stack
       if(indicator==2){
-         //looking for unvisited project nodes to go back
+         //looking for unvisited student nodes to go back
          for(i=0;i<Prj;i++){
-            if(prj_Std_matrix[i][cur-1]==-1 && prj_visited[i]==0){
+            if(std_Mtr_matrix[i][cur-1]==-1 && std_visited[i]==0){
                push(&s, i+1);
                push(&s2, 0);
                prj_visited[i]=1;
