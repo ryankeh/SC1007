@@ -345,7 +345,7 @@ int hasPath(int start)
             if(std_Mtr_matrix[i][cur-1]==-1 && std_visited[i]==0){
                push(&s, i+1);
                push(&s2, 0);
-               prj_visited[i]=1;
+               std_visited[i]=1;
             }
          }
       }
