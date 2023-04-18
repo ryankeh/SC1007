@@ -1,5 +1,4 @@
-//first draft
-//did not account for mentor allowing backtracking via the backwards arrow even if it has been assigned
+//final draft (hopefully)
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -235,48 +234,52 @@ int hasPath(int start)
          std_visited[cur-1]=1;
          enqueue(&path, cur);
          enqueue(&path2, 1);
-         int hello=0;
 
          //student is facing towards mentor
          if(std_Std_matrix[cur-1]==1){
             for(i=0;i<Mtr;i++){
                if(std_Mtr_matrix[cur-1][i]==1 && mtr_visited[i]==0){
                   //successfully reached mentor
+                  std_Std_matrix[cur-1]=-1;
                   mtr_visited[i]=1;
                   enqueue(&path, i+1);
 
                   printQ(path.head);
-                  while(path.size>3){
-                     int pre,next;
-                     pre = getFront(path);
-                     dequeue(&path);
-                     next = getFront(path);
-                     //flipping arrow
-                     prj_Std_matrix[pre-1][next-1] = -1;
+                  printQ(path2.head);
 
-                     pre = getFront(path);
-                     dequeue(&path);
-                     next = getFront(path);
-                     //flipping arrow
-                     prj_Std_matrix[next-1][pre-1] = 1;
-                  }
+                  //----------------------------------------------------------------------------------------------------
 
                   while(!isEmptyQueue(path)){
                      int pre,next;
-                     pre = getFront(path);
-                     dequeue(&path);
-                     next = getFront(path);
-                     //flipping arrow
-                     prj_Std_matrix[pre-1][next-1] = -1;
+                     int pre2,next2;
 
                      pre = getFront(path);
+                     pre2 = getFront(path2);
                      dequeue(&path);
+                     dequeue(&path2);
                      next = getFront(path);
-                     //flipping arrow
-                     printf("next, pre: %d  %d\n",next,pre);
-                     std_Mtr_matrix[pre-1][next-1] = -1;
-                     dequeue(&path);
+                     next2 = getFront(path2);
+                     printf("pre, indicator: %d  %d\n",pre,pre2);
+                     printf("next, indicator: %d  %d\n",next,next2);
 
+                     //flipping arrow
+
+                     //project to student
+                     if(pre2==0 && next2==1){
+                        prj_Std_matrix[pre-1][next-1] = -1;
+                     }
+                     //student to project
+                     if(pre2==1 && next2==0){
+                        prj_Std_matrix[next-1][pre-1] = 1;
+                     }
+                     //student to mentor
+                     if(pre2==1 && next2==2){
+                        std_Mtr_matrix[pre-1][next-1] = -1;
+                     }
+                     //mentor to student
+                     if(pre2==2 && next2==1){
+                        std_Mtr_matrix[next-1][pre-1] = 1;
+                     }
                   }
 
                   return 1;
@@ -289,6 +292,13 @@ int hasPath(int start)
                   push(&s, i+1);
                   push(&s2, 0);
                }
+            }
+         }
+
+         for(i=0;i<Prj;i++){
+            if(prj_Std_matrix[i][cur-1]==-1 && prj_visited[i]==0){
+               push(&s, i+1);
+               push(&s2, 1);
             }
          }
 
