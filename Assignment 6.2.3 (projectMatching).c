@@ -1,4 +1,4 @@
-//draft 3
+//Draft 3
 //path tracking doesn't work, backtracked nodes still enqueued and arrows flipped
 //traversal works fine tho
 
@@ -36,6 +36,7 @@ void insertAdjVertex(ListNode** AdjList,int vertex);
 void removeAdjVertex(ListNode** AdjList,int vertex);
 int hasPath(int start);
 int recursiveHasPath(int start, int identifier);
+void cleanVisitedArray();
 
 void enqueue(Queue *qPtr, int item);
 int dequeue(Queue *qPtr);
@@ -170,9 +171,10 @@ int main()
       mtr_assigned[i] = 0;
    }
 
-   maxMatch = maxMatch + hasPath(1);
-   maxMatch = maxMatch + hasPath(2);
-   maxMatch = maxMatch + hasPath(3);
+   for(i=0;i<Prj;i++){
+      cleanVisitedArray();
+      maxMatch = maxMatch + hasPath(i+1);
+   }
 
 
    printf("Mentor allocation\n");
@@ -182,6 +184,19 @@ int main()
 
    printf("Max match: %d\n", maxMatch);
    return 0;
+}
+
+
+void cleanVisitedArray(){
+   for (int i = 0; i < Prj; i++) {
+      prj_visited[i] = 0;
+   }
+   for (int i = 0; i < Std; i++) {
+      std_visited[i] = 0;
+   }
+   for (int i = 0; i < Mtr; i++) {
+      mtr_visited[i] = 0;
+   }
 }
 
 
@@ -211,17 +226,6 @@ int hasPath(int start)
    Stack s2;
    s2.head = NULL;
    s2.size = 0;
-
-   //setting all visited arrays to 0
-   for (int i = 0; i < Prj; i++) {
-      prj_visited[i] = 0;
-   }
-   for (int i = 0; i < Std; i++) {
-      std_visited[i] = 0;
-   }
-   for (int i = 0; i < Mtr; i++) {
-      mtr_visited[i] = 0;
-   }
 
    //----------------------------------------------------------------------------------------------------
 
