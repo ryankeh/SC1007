@@ -1,4 +1,6 @@
-//final draft (hopefully)
+//draft 3
+//path tracking doesn't work, backtracked nodes still enqueued and arrows flipped
+//traversal works fine tho
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,8 +34,8 @@ typedef struct _stack
 
 void insertAdjVertex(ListNode** AdjList,int vertex);
 void removeAdjVertex(ListNode** AdjList,int vertex);
-int hasPath(int** prj_Std_matrix, int** std_Mtr_matrix, int* vertices, int start);
-int matching(Graph g);
+int hasPath(int start);
+int recursiveHasPath(int start, int identifier);
 
 void enqueue(Queue *qPtr, int item);
 int dequeue(Queue *qPtr);
@@ -60,6 +62,9 @@ int **std_Mtr_matrix;
 int* prj_visited;
 int* std_visited;
 int* mtr_visited;
+
+int* std_assigned;
+int* mtr_assigned;
 //can tell if student was visited by the std_Std_matrix
 //----------------------------------------------------------------------------------------------------
 
@@ -155,15 +160,24 @@ int main()
    std_visited = (int *)malloc(Std * sizeof(int));
    mtr_visited = (int *)malloc(Mtr * sizeof(int));
 
-   //  hasPath(1);
-   //  hasPath(2);
-   //  hasPath(3);
+   //initialising assigned arrays
+   std_assigned = (int *)malloc(Std * sizeof(int));
+   mtr_assigned = (int *)malloc(Mtr * sizeof(int));
+   for (int i = 0; i < Std; i++) {
+      std_assigned[i] = 0;
+   }
+   for (int i = 0; i < Mtr; i++) {
+      mtr_assigned[i] = 0;
+   }
 
+   maxMatch = maxMatch + hasPath(1);
+   maxMatch = maxMatch + hasPath(2);
+   maxMatch = maxMatch + hasPath(3);
 
 
    printf("Mentor allocation\n");
    for(i=0;i<Mtr;i++){
-      printf("Mentor %d: %d\n", i,mtr_visited[i]);
+      printf("Mentor %d: %d\n", i,mtr_assigned[i]);
    }
 
    printf("Max match: %d\n", maxMatch);
@@ -198,11 +212,22 @@ int hasPath(int start)
    s2.head = NULL;
    s2.size = 0;
 
+   //setting all visited arrays to 0
+   for (int i = 0; i < Prj; i++) {
+      prj_visited[i] = 0;
+   }
+   for (int i = 0; i < Std; i++) {
+      std_visited[i] = 0;
+   }
+   for (int i = 0; i < Mtr; i++) {
+      mtr_visited[i] = 0;
+   }
+
    //----------------------------------------------------------------------------------------------------
 
    push(&s, start);
    push(&s2, 0);
-   prj_visited[start]=1;
+   prj_visited[start-1]=1;
 
    int i,j,k;
    int indicator;
@@ -216,7 +241,6 @@ int hasPath(int start)
 
       //project is top of the stack
       if(indicator==0){
-         prj_visited[cur-1]=1;
          //enqueue project to path
          enqueue(&path, cur);
          enqueue(&path2, 0);
@@ -225,23 +249,25 @@ int hasPath(int start)
             if(prj_Std_matrix[cur-1][i]==1 && std_visited[i]==0){
                push(&s, i+1);
                push(&s2, 1);
+               std_visited[i]=1;
             }
          }
       }
 
+      //----------------------------------------------------------------------------------------------------
+
       //student is top of the stack
       if(indicator==1){
-         std_visited[cur-1]=1;
          enqueue(&path, cur);
          enqueue(&path2, 1);
 
          //student is facing towards mentor
          if(std_Std_matrix[cur-1]==1){
             for(i=0;i<Mtr;i++){
-               if(std_Mtr_matrix[cur-1][i]==1 && mtr_visited[i]==0){
+               if(std_Mtr_matrix[cur-1][i]==1 && mtr_assigned[i]==0){
                   //successfully reached mentor
-                  std_Std_matrix[cur-1]=-1;
-                  mtr_visited[i]=1;
+                  std_Std_matrix[cur-1]=-1; //flip std_Std arrow
+                  mtr_assigned[i]=1;
                   enqueue(&path, i+1);
 
                   printQ(path.head);
@@ -249,85 +275,87 @@ int hasPath(int start)
 
                   //----------------------------------------------------------------------------------------------------
 
-                  while(!isEmptyQueue(path)){
-                     int pre,next;
-                     int pre2,next2;
+                  // while(!isEmptyQueue(path)){
+                  //    int pre,next;
+                  //    int pre2,next2;
 
-                     pre = getFront(path);
-                     pre2 = getFront(path2);
-                     dequeue(&path);
-                     dequeue(&path2);
-                     next = getFront(path);
-                     next2 = getFront(path2);
-                     printf("pre, indicator: %d  %d\n",pre,pre2);
-                     printf("next, indicator: %d  %d\n",next,next2);
+                  //    pre = getFront(path);
+                  //    pre2 = getFront(path2);
+                  //    dequeue(&path);
+                  //    dequeue(&path2);
+                  //    next = getFront(path);
+                  //    next2 = getFront(path2);
+                  //    printf("pre, indicator: %d  %d\n",pre,pre2);
+                  //    printf("next, indicator: %d  %d\n",next,next2);
 
-                     //flipping arrow
+                  //    //flipping arrow
 
-                     //project to student
-                     if(pre2==0 && next2==1){
-                        prj_Std_matrix[pre-1][next-1] = -1;
-                     }
-                     //student to project
-                     if(pre2==1 && next2==0){
-                        prj_Std_matrix[next-1][pre-1] = 1;
-                     }
-                     //student to mentor
-                     if(pre2==1 && next2==2){
-                        std_Mtr_matrix[pre-1][next-1] = -1;
-                     }
-                     //mentor to student
-                     if(pre2==2 && next2==1){
-                        std_Mtr_matrix[next-1][pre-1] = 1;
-                     }
-                  }
-
+                  //    //project to student
+                  //    if(pre2==0 && next2==1){
+                  //       prj_Std_matrix[pre-1][next-1] = -1;
+                  //    }
+                  //    //student to project
+                  //    if(pre2==1 && next2==0){
+                  //       prj_Std_matrix[next-1][pre-1] = 1;
+                  //    }
+                  //    //student to mentor
+                  //    if(pre2==1 && next2==2){
+                  //       std_Mtr_matrix[pre-1][next-1] = -1;
+                  //    }
+                  //    //mentor to student
+                  //    if(pre2==2 && next2==1){
+                  //       std_Mtr_matrix[next-1][pre-1] = 1;
+                  //    }
+                  // }
                   return 1;
                }
             }
-            
 
-            for(i=0;i<Prj;i++){
-               if(prj_Std_matrix[cur-1][i]==-1 && prj_visited[i]==0){
+            for(i=0;i<Mtr;i++){
+               if(std_Mtr_matrix[cur-1][i]==1 && mtr_visited[i]==0){
+                  //reached already assigned mentor
                   push(&s, i+1);
-                  push(&s2, 0);
+                  push(&s2, 2);
+                  mtr_visited[i]=1;
+                  enqueue(&path, i+1);
                }
             }
          }
 
+         //looking for unvisited project nodes to go back
          for(i=0;i<Prj;i++){
             if(prj_Std_matrix[i][cur-1]==-1 && prj_visited[i]==0){
                push(&s, i+1);
-               push(&s2, 1);
+               push(&s2, 0);
+               prj_visited[i]=1;
             }
          }
-
-         
-
       }
 
-   }
+      //----------------------------------------------------------------------------------------------------
 
-
-   printf("The project student adjacency matrix is:\n");
-   for (int i = 0; i < Prj; i++) {
-      for (int j = 0; j < Std; j++) {
-         printf("%d ", prj_Std_matrix[i][j]);
+      //mentor is top of the stack
+      if(indicator==2){
+         //looking for unvisited project nodes to go back
+         for(i=0;i<Prj;i++){
+            if(prj_Std_matrix[i][cur-1]==-1 && prj_visited[i]==0){
+               push(&s, i+1);
+               push(&s2, 0);
+               prj_visited[i]=1;
+            }
+         }
       }
-      printf("\n");
    }
-
-   printf("The student mentor adjacency matrix is:\n");
-   for (int i = 0; i < Std; i++) {
-      for (int j = 0; j < Mtr; j++) {
-         printf("%d ", std_Mtr_matrix[i][j]);
-      }
-      printf("\n");
-   }
- 
-
 
  return 0;
+}
+
+
+
+
+
+int recursiveHasPath(int start, int identifier){
+
 }
 
 
