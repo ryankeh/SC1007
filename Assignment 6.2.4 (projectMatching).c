@@ -36,6 +36,7 @@ void removeAdjVertex(ListNode** AdjList,int vertex);
 int hasPath(int start);
 int recursiveHasPath(int start, int indicator);
 void cleanVisitedArray();
+void testInput();
 
 void enqueue(Queue *qPtr, int item);
 int dequeue(Queue *qPtr);
@@ -127,34 +128,11 @@ int main()
          //printf("scan mentor\n");
       }
    }
+   
 
    //----------------------------------------------------------------------------------------------------
-
    //testing input
-
-   // printf("The project student adjacency matrix is:\n");
-   // for (int i = 0; i < Prj; i++) {
-   //    for (int j = 0; j < Std; j++) {
-   //       printf("%d ", prj_Std_matrix[i][j]);
-   //    }
-   //    printf("\n");
-   // }
-
-   // printf("The student student adjacency matrix is:\n");
-   // for (int i = 0; i < Std; i++) {
-   //    printf("%d ", std_Std_matrix[i]);
-   //    printf("\n");
-   // }
-
-   // printf("The student mentor adjacency matrix is:\n");
-   // for (int i = 0; i < Std; i++) {
-   //    for (int j = 0; j < Mtr; j++) {
-   //       printf("%d ", std_Mtr_matrix[i][j]);
-   //    }
-   //    printf("\n");
-   // }
-
-   //----------------------------------------------------------------------------------------------------
+   //testInput();
 
    //initialising visited arrays
    prj_visited = (int *)malloc(Prj * sizeof(int));
@@ -180,6 +158,7 @@ int main()
       cleanVisitedArray();
       prj_visited[i]=1;
       if(recursiveHasPath(i+1,0)) maxMatch++;
+      //testInput();
    }
 
    //----------------------------------------------------------------------------------------------------
@@ -224,11 +203,10 @@ int recursiveHasPath(int start, int indicator){
       //student is facing towards mentor
       if(std_Std_matrix[start-1]==1){
          for(int i=0;i<Mtr;i++){
-            if(std_Mtr_matrix[start-1][i]==1 && mtr_assigned[i]==0 && mtr_visited[i]==0){
+            if(std_Mtr_matrix[start-1][i]==1 && mtr_assigned[i]==0){
                //successfully reached mentor
                std_Std_matrix[start-1]=-1; //flip std_Std arrow
                std_Mtr_matrix[start-1][i] = -1; //flip std_Mtr arrow
-               mtr_visited[i]=1;
                mtr_assigned[i]=1;
                // std_assigned[start-1]=1;
                return 1;
@@ -283,6 +261,30 @@ int recursiveHasPath(int start, int indicator){
 
 
 
+
+void testInput(){
+   printf("The project student adjacency matrix is:\n");
+   for (int i = 0; i < Prj; i++) {
+      for (int j = 0; j < Std; j++) {
+         printf("%d ", prj_Std_matrix[i][j]);
+      }
+      printf("\n");
+   }
+
+   printf("The student student adjacency matrix is:\n");
+   for (int i = 0; i < Std; i++) {
+      printf("%d ", std_Std_matrix[i]);
+      printf("\n");
+   }
+
+   printf("The student mentor adjacency matrix is:\n");
+   for (int i = 0; i < Std; i++) {
+      for (int j = 0; j < Mtr; j++) {
+         printf("%d ", std_Mtr_matrix[i][j]);
+      }
+      printf("\n");
+   }
+}
 
 
 void cleanVisitedArray(){
